@@ -1,5 +1,5 @@
 # flume-custom
-This is a feature branch for adding a custom source in flume. This source reads a line and concatenates to the next line.
+nf-source branch adds a custom source in flume. This source reads a line and concatenates to the next line.
 
 #Input
 1 
@@ -10,3 +10,7 @@ This is a feature branch for adding a custom source in flume. This source reads 
 1
 12
 123
+
+#nf-intercept
+This branch adds a new  custom interceptor.
+
