@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.FlumeException;
+import org.apache.flume.event.EventBuilder;
 import org.apache.flume.interceptor.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 public class CustomHostInterceptor implements Interceptor {
 	private static final Logger logger = LoggerFactory.getLogger(CustomHostInterceptor.class);
 	private String hostValue;
-
 	// supplied through the flume configuration using key "hostHeader"
 	private String hostHeader;
 
@@ -24,11 +24,12 @@ public class CustomHostInterceptor implements Interceptor {
 	public CustomHostInterceptor(String hostHeader) {
 		// TODO Auto-generated constructor stub
 		this.hostHeader = hostHeader;
+		initialize();
 	}
 
 	public void close() {
 		// TODO Auto-generated method stub
-
+		logger.info("Closing class");
 	}
 
 	public void initialize() {
@@ -48,7 +49,7 @@ public class CustomHostInterceptor implements Interceptor {
 		// TODO Auto-generated method stub
 		// This is the event body
 		String body = new String(event.getBody());
-		logger.info("event body ===================> {}", body);
+		logger.debug("event body ===================> " + body);
 
 		// These are event headers
 		Map<String, String> headers = event.getHeaders();
@@ -56,7 +57,11 @@ public class CustomHostInterceptor implements Interceptor {
 		// Enrich header with hostname and hostvalue
 		headers.put(hostHeader, hostValue);
 
+		//Build the enriched event 
+		//event = EventBuilder.withBody(event.getBody(), headers);
+		
 		// Let the enriched event go
+		logger.info("event ============> " + event);
 		return event;
 	}
 
@@ -82,6 +87,8 @@ public class CustomHostInterceptor implements Interceptor {
 			// TODO Auto-generated method stub
 			// read property from flume conf
 			hostHeader = context.getString("hostHeader");
+			logger.info("hostHeader ===================> {}", hostHeader);
+
 		}
 
 		public Interceptor build() {
