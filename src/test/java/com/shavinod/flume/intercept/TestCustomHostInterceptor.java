@@ -1,4 +1,4 @@
-package com.shavinod.flume.source;
+package com.shavinod.flume.intercept;
 
 import java.util.HashMap;
 import java.util.Map;
